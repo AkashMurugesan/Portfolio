@@ -1,0 +1,5 @@
+drizzle/
+.data/
+package-lock.json
+AGENTS.md
+CLAUDE.md

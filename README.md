@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio
 
-## Getting Started
+A long-lived personal platform with two parts that share one data store:
 
-First, run the development server:
+- **Public portfolio.** A curated, evidence-backed story covering work, projects, writing and direction.
+- **Private growth dashboard.** Weekly reviews, habits and goals, visible only to the admin.
+
+The core idea is to **record once and publish selectively**. Every content item has a visibility of `draft | private | unlisted | public`.
+
+## Stack
+
+- Next.js 16 (App Router) and TypeScript
+- Tailwind CSS 4
+- Postgres through Drizzle ORM. Locally it uses embedded [PGlite](https://pglite.dev), so Docker is not required.
+- Auth.js with GitHub OAuth. Exactly one allowlisted account can sign in.
+- Vitest, ESLint, Prettier and GitHub Actions
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local      # then fill in the values (see below)
+npm run db:migrate              # creates ./.data/pglite and applies migrations
+npm run dev                     # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Admin sign-in (GitHub OAuth)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create an OAuth App at <https://github.com/settings/developers>. Set the homepage to `http://localhost:3000` and the callback URL to `http://localhost:3000/api/auth/callback/github`.
+2. Put the client ID and secret in `AUTH_GITHUB_ID` and `AUTH_GITHUB_SECRET`.
+3. Set `ADMIN_GITHUB_ID` to your numeric GitHub user ID. You can find it with `curl https://api.github.com/users/<username>`.
+4. Generate `AUTH_SECRET` with `npx auth secret`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Any other GitHub account is rejected. If `ADMIN_GITHUB_ID` is empty, nobody can sign in, so the check fails closed.
 
-## Learn More
+## Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Script                                 | Purpose                                            |
+| -------------------------------------- | -------------------------------------------------- |
+| `npm run dev` / `build` / `start`      | Next.js                                            |
+| `npm run lint` / `typecheck` / `test`  | Quality checks (all run in CI)                     |
+| `npm run format`                       | Prettier                                           |
+| `npm run db:generate -- --name <name>` | Create a migration from schema changes             |
+| `npm run db:migrate`                   | Apply migrations (`DATABASE_URL`, or local PGlite) |
+| `npm run db:studio`                    | Drizzle Studio                                     |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The PGlite data directory can only be opened by one process at a time. Stop `npm run dev` before running `db:migrate` or `db:studio` against it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project layout
 
-## Deploy on Vercel
+```
+src/app/(public)/     public routes. They may only import @/server/dal/public (enforced by ESLint).
+src/app/admin/        admin routes, protected by proxy.ts and requireAdmin()
+src/app/login/        GitHub sign-in
+src/server/auth/      Auth.js config, allowlist, requireAdmin guard
+src/server/db/        Drizzle schema, client factory (Postgres | PGlite), migrate script
+drizzle/              generated SQL migrations (commit these)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Privacy model
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `proxy.ts` redirects signed-out requests for `/admin/**` to `/login`.
+- Every admin page, layout and server action also calls `requireAdmin()`. The proxy is only the first line of defense.
+- Public pages read through a visibility-safe data-access layer. It returns only `public` items, resolves `unlisted` items by exact slug only, and never selects `private_notes`.
+
+## Deployment
+
+- **MVP:** Vercel with Neon Postgres. Set `DATABASE_URL`, the `AUTH_*` variables and `ADMIN_GITHUB_ID`, and run `npm run db:migrate` against Neon.
+- **Self-hosting (V1):** `docker compose up --build` starts Postgres, runs migrations and then starts the app on port 3000. Set `AUTH_TRUST_HOST=true` when self-hosting.
