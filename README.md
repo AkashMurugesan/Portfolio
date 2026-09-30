@@ -55,7 +55,29 @@ src/app/login/        GitHub sign-in
 src/server/auth/      Auth.js config, allowlist, requireAdmin guard
 src/server/db/        Drizzle schema, client factory (Postgres | PGlite), migrate script
 drizzle/              generated SQL migrations (commit these)
+src/features/portfolio/  portfolio app (model, data, state, admin editing, sections)
+src/features/resume/     JD-tailored resume engine and PDF rendering
+src/components/ui/       shared UI primitives
 ```
+
+## Portfolio app (v1)
+
+The routes are:
+
+- `/` for role selection
+- `/portfolio` for Viewer mode, which is read-only
+- `/portfolio/edit` for Admin mode
+
+A section can be linked directly with a URL hash, for example `/portfolio#projects/catman`.
+
+```
+portfolio.constants.ts → getPortfolio() (repository.ts) → PortfolioApp → sections
+```
+
+- **Data.** `src/features/portfolio/data/portfolio.constants.ts` is the source of truth today. To move to a database or API, replace the implementation in `repository.ts`. The UI only depends on the types in `model/types.ts`.
+- **Admin editing.** Every add, edit, delete and reorder goes through one pure reducer (`state/reducer.ts`). Forms are generated from field schemas (`admin/schemas.ts`), so a new editable entity only needs a field list. For now, edits are saved as a draft in that browser, and viewers never see them. **Export** downloads the edited data as JSON, which you can paste into the constants file. **Reset** discards the draft.
+- **Derived views.** Years of experience, skill evidence (how many roles and projects use each skill) and the career journey are computed from the data, never stored separately.
+- **Resume generator.** `resume/engine` matches JD terms against the portfolio vocabulary, then selects and reorders real bullets, projects and skills. It never writes new claims. Skills the JD asks for that the portfolio lacks are reported but not added. `resume/pdf` renders an ATS-friendly PDF in the browser, loading the PDF library only when needed. An AI-based tailor can replace the matching step behind the `ResumeTailor` interface.
 
 ## Privacy model
 

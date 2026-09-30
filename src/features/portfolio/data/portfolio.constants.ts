@@ -1,0 +1,322 @@
+import type { Portfolio } from "../model/types";
+
+/**
+ * Source of truth for v1 (merged from the ATS and project resumes).
+ * Admin edits can be exported as JSON from the UI and pasted here.
+ * Personal contact details (phone, home address) are intentionally omitted.
+ */
+export const portfolioData: Portfolio = {
+  profile: {
+    name: "Akash Murugesan",
+    headline: "Software Engineer · Backend & Full-Stack",
+    tagline:
+      "Backend-focused full-stack engineer building reliable services for enterprise data, migration and cloud workflows.",
+    about: [
+      "Software Engineer with 5+ years of experience building and supporting backend and full-stack applications using Node.js, TypeScript, React.js, MongoDB, Oracle, PostgreSQL and AWS.",
+      "At Comcast I work on enterprise GIS and equipment-catalog platforms for fiber network planning — backend services, large-scale Oracle → MongoDB catalog migration, and APIs consumed by Unity-based drafting tools.",
+      "Before that, at Calibraint, I built full-stack products end to end: REST APIs, authentication and KYC flows, role-based access control, Kafka-based streaming and AWS-integrated notification workflows.",
+    ],
+    location: "Chennai, India",
+    email: "akashmurugesan21@gmail.com",
+    links: [{ label: "GitHub", url: "https://github.com/AkashMurugesan" }],
+    currentFocus: [
+      "Deepening backend architecture and data-processing at scale",
+      "DevOps path: Linux → Networking → Docker → AWS → Terraform → CI/CD → ECS & EKS",
+      "Building this portfolio platform in public",
+    ],
+  },
+
+  experience: [
+    {
+      id: "comcast",
+      company: "Comcast",
+      role: "Engineer 2",
+      location: "Chennai, India",
+      start: "2024-12",
+      summary:
+        "Enterprise GIS and catalog-management applications supporting fiber network planning, equipment management and infrastructure design.",
+      highlights: [
+        "Develop and maintain enterprise-grade GIS and catalog management applications supporting fiber network planning, equipment management and infrastructure design workflows.",
+        "Develop backend services using Node.js for processing network assets, equipment information and catalog data across enterprise systems.",
+        "Work on IRIS, a GIS drafting platform, developing APIs consumed by Unity-based drafting tools and supporting cable routing and Wi-Fi infrastructure workflows.",
+        "Work on CATMAN, an equipment catalog migration platform, integrating Oracle and MongoDB data sources for large-scale catalog migration and validation.",
+        "Implement and troubleshoot complex backend data-processing and migration workflows, including data transformation, validation and catalog consistency checks.",
+        "Investigate and resolve production issues involving backend services, data discrepancies and application workflows with QA, ETL, database, GIS and product teams.",
+        "Optimize backend processing and data handling for large catalog datasets to improve reliability and application performance.",
+        "Contribute to technical discussions and implementation decisions in an Agile/Scrum environment, translating telecom infrastructure requirements into production-ready solutions.",
+      ],
+      tech: [
+        "Node.js",
+        "TypeScript",
+        "React.js",
+        "MongoDB",
+        "Oracle",
+        "AWS ECS",
+        "AWS EC2",
+        "Unity",
+      ],
+      projectIds: ["catman", "iris"],
+    },
+    {
+      id: "calibraint",
+      company: "Calibraint",
+      role: "SDE-I",
+      location: "Chennai, India",
+      start: "2021-04",
+      end: "2024-11",
+      summary:
+        "Full-stack product development across multiple products — REST APIs, authentication, access control, streaming and AWS integrations.",
+      highlights: [
+        "Built and enhanced full-stack web applications using Node.js, React.js and AWS across multiple products.",
+        "Designed and developed RESTful backend APIs using Node.js and Express.js, focusing on performance, reliability and efficient data access.",
+        "Developed scalable applications integrated with AWS EC2, ECS, S3, SES and SNS for hosting, storage and notification workflows.",
+        "Developed backend functionality for Calib CRM, including REST APIs, role-based access control and customer and sales data management.",
+        "Developed authentication, KYC, wallet configuration and administration modules for Calib Exchange.",
+        "Implemented JWT-based authentication and Twilio OTP verification for secure user authentication.",
+        "Integrated Apache Kafka for communication and data streaming across services in the Calib Exchange platform.",
+        "Optimized database access and schemas across MySQL, MongoDB and PostgreSQL to support efficient application data processing.",
+        "Performed backend unit testing, debugging, code reviews and production issue resolution to improve software quality and reduce defects.",
+        "Built responsive web applications with React.js, including Progressive Web App (PWA) techniques to optimize web performance.",
+      ],
+      tech: [
+        "Node.js",
+        "Express.js",
+        "NestJS",
+        "React.js",
+        "Next.js",
+        "MongoDB",
+        "MySQL",
+        "PostgreSQL",
+        "Apache Kafka",
+        "Spring Boot",
+        "AWS EC2",
+        "AWS ECS",
+        "AWS S3",
+        "AWS SES",
+        "AWS SNS",
+      ],
+      projectIds: ["calib-crm", "calib-exchange"],
+    },
+  ],
+
+  projects: [
+    {
+      id: "catman",
+      name: "CATMAN",
+      tagline: "Equipment catalog migration between enterprise data sources",
+      experienceId: "comcast",
+      tech: ["Node.js", "React.js", "MongoDB", "Oracle", "AWS ECS"],
+      highlights: [
+        "Developed backend services supporting migration of equipment catalog data between enterprise data sources.",
+        "Integrated Oracle and MongoDB systems and worked on migration validation and catalog consistency.",
+        "Implemented and debugged data-processing workflows for large catalog datasets.",
+        "Improved backend performance for large catalog datasets.",
+        "Collaborated with ETL, QA, database and application teams to identify and resolve migration-related issues.",
+      ],
+      featured: true,
+    },
+    {
+      id: "iris",
+      name: "IRIS",
+      tagline: "GIS network design and drafting platform",
+      experienceId: "comcast",
+      tech: ["Node.js", "MongoDB", "AWS EC2", "Unity"],
+      highlights: [
+        "Developed backend services supporting GIS drafting workflows for network infrastructure.",
+        "Designed APIs consumed by Unity-based drafting tools.",
+        "Worked with MongoDB collections containing network asset information.",
+        "Supported cable routing and Wi-Fi infrastructure workflows; participated in production debugging and feature enhancements.",
+      ],
+      featured: true,
+    },
+    {
+      id: "calib-exchange",
+      name: "Calib Exchange",
+      tagline: "Exchange platform — authentication, KYC, wallets and admin",
+      experienceId: "calibraint",
+      tech: [
+        "Node.js",
+        "React.js",
+        "MongoDB",
+        "MySQL",
+        "Spring Boot",
+        "Apache Kafka",
+        "JWT",
+        "Twilio",
+        "AWS EC2",
+        "AWS S3",
+      ],
+      highlights: [
+        "Developed the authentication module for secure user login and registration.",
+        "Implemented the KYC (Know Your Customer) module for platform security and regulatory compliance.",
+        "Designed and built the admin panel for managing user accounts and platform settings.",
+        "Developed APIs for wallet configuration to support secure transaction handling.",
+        "Implemented JWT authentication and Twilio-based OTP verification.",
+        "Integrated Kafka for communication and data streaming across microservices.",
+      ],
+      featured: true,
+    },
+    {
+      id: "calib-crm",
+      name: "Calib CRM",
+      tagline: "Tenant-based CRM automating sales processes",
+      experienceId: "calibraint",
+      tech: ["Node.js", "React.js", "PostgreSQL", "AWS EC2", "AWS S3"],
+      highlights: [
+        "Developed backend REST APIs and responsive frontend functionality for a tenant-based CRM platform.",
+        "Implemented role-based access control for security and proper data visibility.",
+        "Optimized PostgreSQL data access for customer and sales information.",
+        "Integrated third-party services including email notifications.",
+      ],
+      featured: false,
+    },
+    {
+      id: "maxis-time",
+      name: "Maxis Time",
+      tagline: "Work-log and time tracking application",
+      tech: [
+        "Node.js",
+        "Express.js",
+        "React.js",
+        "MySQL",
+        "JWT",
+        "AWS EC2",
+        "AWS S3",
+        "AWS ECS",
+        "AWS SES",
+        "AWS SNS",
+      ],
+      highlights: [
+        "Developed RESTful APIs using Node.js and Express.js for efficient data retrieval and communication.",
+        "Optimized MySQL schemas for quick access to work logs and data integrity.",
+        "Implemented JWT for secure user authentication.",
+        "Enabled real-time logging of work activities.",
+        "Integrated AWS services (ECS, SES, SNS) for scalability and notifications.",
+      ],
+      featured: false,
+    },
+    {
+      id: "preserve",
+      name: "Preserve",
+      tagline: "Collaborative image sharing for family groups",
+      tech: ["NestJS", "React.js", "MongoDB", "AWS EC2", "AWS S3", "AWS SES", "AWS SNS"],
+      highlights: [
+        "Developed a collaborative image-sharing application for family groups.",
+        "Implemented role-based access controls for secure image management and sharing.",
+        "Used AWS services for scalable and reliable image storage.",
+        "Implemented image compression to optimize storage usage and improve loading times.",
+      ],
+      featured: false,
+    },
+    {
+      id: "wse",
+      name: "WSE",
+      tagline: "Class booking for the Speak Plus program",
+      tech: ["Node.js", "MongoDB", "AWS EC2"],
+      highlights: [
+        "Developed the “CC Adapter” module focused on class booking functionality.",
+        "Implemented a user-friendly class booking feature for the Speak Plus program.",
+        "Integrated backend services to handle booking requests with real-time updates.",
+      ],
+      featured: false,
+    },
+    {
+      id: "exam-solutions",
+      name: "Exam Solutions",
+      tagline: "E-learning platform with quizzes and progress tracking",
+      tech: ["Node.js", "Next.js", "Firebase", "Vercel"],
+      highlights: [
+        "Built the backend of the e-learning platform using Node.js.",
+        "Designed RESTful APIs between the Next.js frontend and backend.",
+        "Integrated user authentication and authorization to secure course materials.",
+        "Implemented real-time quizzes and progress tracking.",
+      ],
+      featured: false,
+    },
+  ],
+
+  skills: [
+    {
+      id: "languages",
+      category: "Languages",
+      skills: ["JavaScript", "TypeScript", "Java", "Python"],
+    },
+    {
+      id: "backend",
+      category: "Backend",
+      skills: ["Node.js", "NestJS", "Express.js", "REST APIs", "Spring Boot"],
+    },
+    { id: "frontend", category: "Frontend", skills: ["React.js", "Next.js"] },
+    {
+      id: "databases",
+      category: "Databases",
+      skills: ["MongoDB", "Oracle", "PostgreSQL", "MySQL"],
+    },
+    {
+      id: "cloud",
+      category: "Cloud & Infrastructure",
+      skills: ["AWS EC2", "AWS ECS", "AWS S3", "AWS SES", "AWS SNS"],
+    },
+    {
+      id: "tools",
+      category: "Messaging & Tools",
+      skills: ["Apache Kafka", "Git", "Firebase"],
+    },
+    {
+      id: "engineering",
+      category: "Engineering",
+      skills: [
+        "API Development",
+        "Data Migration",
+        "Authentication & Authorization",
+        "Backend Testing",
+        "Production Support",
+        "Agile/Scrum",
+      ],
+    },
+  ],
+
+  achievements: [
+    {
+      id: "hackathon",
+      title: "1st Prize — AI-powered Intra-Hackathon",
+      date: "Hackathon",
+      description: "Won first prize for developing a dynamic dashboard.",
+    },
+    {
+      id: "best-team-2025",
+      title: "Best Team of the Year",
+      date: "2025",
+      description: "Team recognition for delivery and impact.",
+    },
+    {
+      id: "best-team-2022",
+      title: "Best Team of the Year",
+      date: "2022",
+      description: "Team recognition for delivery and impact.",
+    },
+    {
+      id: "star-performer",
+      title: "Star Performer of the Month",
+      date: "Multiple times",
+      description: "Awarded multiple times for consistent performance.",
+    },
+  ],
+
+  education: [
+    {
+      id: "sece",
+      institution: "Sri Eshwar College of Engineering",
+      degree: "B.E.",
+      field: "Electrical and Electronics Engineering",
+      location: "Coimbatore, India",
+      start: "2017-08",
+      end: "2021-04",
+      grade: "CGPA 7.2",
+    },
+  ],
+
+  certifications: [],
+
+  customSections: [],
+};
